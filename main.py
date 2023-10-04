@@ -73,13 +73,14 @@ def input_text_into_cell(text):
 # コマンドライン引数のパスを取得して、Excelファイルを読み込む
 args = sys.argv
 if len(args) == 1:
-    if os.path.exists("examle.xlsx"):
+    if os.path.exists("example.xlsx"):
         raise Exception("コマンドライン引数にExcelファイルのパスを指定してください。")
     else:
         workbook = Workbook()
         sheet = workbook.active
         sheet.append(["text", "similarity", "is_match", "guideline"])
-        workbook.save(filename="examle.xlsx")
+        sheet["D3"].value = "threshold"
+        workbook.save(filename="example.xlsx")
         raise Exception("Excelファイルを新規作成しました。")
 elif len(args) != 2:
     raise Exception("コマンドライン引数にExcelファイルのパスを指定してください。")
@@ -99,6 +100,16 @@ if sheet["D2"].value:
 else:
     guideline_text = "自然の美しさや永遠のテーマを表現しており、哲学的な要素を含む。このような思考やアイデアは、宇宙や自然の神秘性についての哲学的な思考と関連している。特に、永遠や意味の追求をテーマにした哲学者や思想と関連付けられる可能性がある。"
     print("guideline_text(Default): ", guideline_text)
+if sheet["D4"].value:
+    if re.match(r"\d+\.\d+", str(sheet["D4"].value)):
+        threshold = float(sheet["D4"].value)
+        print("threshold: ", threshold)
+    else:
+        print(sheet["D4"].value)
+        raise Exception("thresholdには0.0から1.0の間の数値を入力してください。")
+else:
+    threshold = 0.7
+    print("threshold(Default): ", threshold)
 input_texts = []
 # 各セルのテキストを読み込んで分析する
 for row in sheet.iter_rows(min_row=2, max_col=1, values_only=True):
@@ -111,9 +122,11 @@ sims = similarity_list(guideline_text, input_texts)
 for row, sim in zip(sheet.iter_rows(min_row=2), sims):
     print(row[0].value, sim)
     row[1].value = sim
-    if float(sim) >= 0.5:
+    if float(sim) >= threshold:
         row[2].value = "○"
     else:
         row[2].value = "✕"
 # シートを保存
 workbook.save(filename=filename)
+
+print("Finished!")
