@@ -24,7 +24,7 @@ pip install  -r .\requirements.txt
 ## 使い方
 ### 初回実行時
 ```powershell
-//現在のフォルダにテンプレ用Excelファイル{example.xlsx}を作成
+// 現在のフォルダにテンプレ用Excelファイル{example.xlsx}を作成
 python .\main.py
 ```
 ### Excelファイルに調査したい値を入力する(以下サンプル)
@@ -42,10 +42,11 @@ python .\main.py
 
 ### 入力した文字列に対する一致度の判定
 ```powershell
-//デフォルトのパスは.\examlpe.xlsx
+// デフォルトのパスは.\examlpe.xlsx
 python .\main.py {判定したいExcelファイルのパス}
 ```
 ### 出力結果のイメージ
-![image](https://github.com/kamesan1577/philosopher_gpt/assets/47214420/45bc5059-874d-4ae5-a06c-44d9642acc85)
+![image](https://github.com/kamesan1577/philosopher_gpt/assets/47214420/4afad0ba-e37a-4892-b120-f0025bf61db8)
+
 
 
